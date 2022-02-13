@@ -1,0 +1,16 @@
+{
+    "name": "kriss0r/cron",
+    "require": {
+        "ceus-media/common": "9999999-dev",
+        "ceus-media/bootstrap": "9999999-dev",
+        "lorisleiva/cron-translator": "9999999-dev",
+        "dragonmantank/cron-expression": "9999999-dev"
+    },
+    "authors": [
+        {
+            "name": "kriss0r",
+            "email": "kriss@ceusmedia.de"
+        }
+    ],
+    "minimum-stability": "dev"
+}
