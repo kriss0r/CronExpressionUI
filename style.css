@@ -1,0 +1,30 @@
+body * {
+	font-family: "Fira Sans";
+	}
+.hero-unit h1 {
+	font-family: "Fira Sans";
+	}
+label.small {
+	text-transform: uppercase;
+	font-weight: light;
+	font-size: 0.9rem;
+	color: #666;
+	padding-top: 0.25rem;
+	padding-left: 0.15rem;
+	}
+input#input_expression {
+	display: block;
+	width: 98%;
+	height: auto;
+	font-size: 3rem;
+	font-family: "Fira Mono";
+	}
+div.output {
+	font-size: 2rem;
+	padding-bottom: 0.5rem;
+	line-height: 1.1em;
+	}
+#input,
+#output {
+	padding: 0 60px !important;
+	}

@@ -6,25 +6,32 @@ use Lorisleiva\CronTranslator\CronTranslator;
 
 //  ------------------------------------------------------
 
-$mode		= 'dev';
+//$mode		= 'dev';
 $locale		= 'en';
+$timezone	= 'Europe/Berlin';
 
-$hint		= '–';
-$next		= '–';
-$prev		= '–';
+$hint		= '<em class="muted">–</em>';
+$next		= '<em class="muted">–</em>';
+$prev		= '<em class="muted">–</em>';
 
 //  ------------------------------------------------------
 
+date_default_timezone_set( $timezone );
 if( isset( $mode ) && $mode === 'dev' )
 	ini_set( 'display_errors', 'On' );
 
 $request		= new ADT_List_Dictionary( $_REQUEST );
-$expression		= $request->get( 'expression' );
+$expression		= trim( $request->get( 'expression' ) ?? '' );
 
-if( $expression ){
-	$hint	= 'invalid';
+if( 0 !== strlen( $expression ) ){
+	$hint	= '<em class="muted">invalid</em>';
 	if( CronExpression::isValidExpression( $expression ) ){
-		$hint	= CronTranslator::translate( $expression, $locale, TRUE ).'.';
+		try{
+			$hint	= CronTranslator::translate( $expression, $locale, TRUE ).'.';
+		}
+		catch( Exception $e ){
+			$hint	= '<em class="muted">not supported</em>';
+		}
 		$cron	= new CronExpression( $expression );
 		$next	= $cron->getNextRunDate()->format('Y-m-d H:i:s');
 		$prev	= $cron->getPreviousRunDate()->format('Y-m-d H:i:s');
@@ -57,47 +64,11 @@ $body	= '
 		<label class="small" for="output_prev">Prev Run</label>
 		<div class="output" id="output_prev">'.$prev.'</div>
 	</div>
-</div>
-';
-
-$head	= '
-<link type="text/css" rel="stylesheet" media="all" href="https://cdn.ceusmedia.de/fonts/Fira/fira.css"/>
-<style>
-body * {
-	font-family: "Fira Sans";
-	}
-.hero-unit h1 {
-	font-family: "Fira Sans";
-	}
-label.small {
-	text-transform: uppercase;
-	font-weight: light;
-	font-size: 0.9rem;
-	color: #666;
-	padding-top: 0.25rem;
-	padding-left: 0.15rem;
-	}
-input#input_expression {
-	display: block;
-	width: 98%;
-	height: auto;
-	font-size: 3rem;
-	font-family: "Fira Mono";
-	}
-div.output {
-	font-size: 2rem;
-	padding-bottom: 0.5rem;
-	line-height: 1.1em;
-	}
-#input,
-#output {
-	padding: 0 60px !important;
-	}
-</style>
-';
+</div>';
 
 $page	= new UI_HTML_PageFrame();
-$page->addStylesheet('https://cdn.ceusmedia.de/css/bootstrap.min.css');
-$page->addHead( $head );
+$page->addStylesheet( 'https://cdn.ceusmedia.de/css/bootstrap.min.css');
+$page->addStylesheet( 'https://cdn.ceusmedia.de/fonts/Fira/fira.css' );
+$page->addStylesheet( 'style.css' );
 $page->addBody( $body );
 print $page->build();
