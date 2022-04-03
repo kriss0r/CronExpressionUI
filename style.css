@@ -28,3 +28,13 @@ div.output {
 #output {
 	padding: 0 60px !important;
 	}
+
+#input_expression.good {
+	background-color: rgba(240, 255, 240, 1);
+	}
+#input_expression.bad {
+	background-color: rgba(255, 240, 240, 1);
+	}
+#input_expression.pending {
+	background-color: rgba(255, 255, 220, 1);
+	}
